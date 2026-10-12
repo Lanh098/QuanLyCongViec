@@ -7,10 +7,11 @@ import java.io.Serializable
 data class CongViec(
     var tenCongViec: String,
     var moTa: String,
-    var trangThai: Boolean = false
+    var trangThai: Boolean = false,
+    var soLanChinhSua: Int = 0
 ) : Serializable {
 
-    // Trả về chuỗi thông tin đầy đủ của công việc.
+    // Tạo chuỗi thông tin đầy đủ của công việc.
     fun thongTinCongViec(): String {
 
         val moTaHienThi = moTa.ifBlank {
@@ -30,16 +31,19 @@ data class CongViec(
             $moTaHienThi
 
             Trạng thái: $trangThaiHienThi
+
+            Số lần chỉnh sửa: $soLanChinhSua
         """.trimIndent()
     }
 }
 
-// Các khóa dùng chung khi truyền dữ liệu qua Intent.
+// Các khóa dùng chung khi truyền dữ liệu bằng Intent.
 object CongViecKeys {
     const val EXTRA_TASK = "extra_task"
     const val EXTRA_INDEX = "extra_index"
 }
 
+// Extension Function dùng để nhận đối tượng CongViec từ Intent.
 @Suppress("DEPRECATION")
 fun Intent.getCongViecExtra(key: String): CongViec? {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
