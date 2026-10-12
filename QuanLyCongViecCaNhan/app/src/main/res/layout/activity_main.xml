@@ -22,7 +22,7 @@
             android:id="@+id/tvHoTenSinhVien"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Họ tên sinh viên: Điền họ tên của bạn"
+            android:text="Họ tên sinh viên: Bùi Tá Lanh"
             android:textSize="16sp"
             android:paddingBottom="4dp" />
 
@@ -30,7 +30,7 @@
             android:id="@+id/tvMaSinhVien"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mã sinh viên: Điền mã sinh viên của bạn"
+            android:text="Mã sinh viên: 2415053122123"
             android:textSize="16sp"
             android:paddingBottom="4dp" />
 
@@ -38,7 +38,7 @@
             android:id="@+id/tvLopHocPhan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Lớp HP: Điền lớp học phần của bạn"
+            android:text="Lớp học phần : 126TLTTD01"
             android:textSize="16sp"
             android:paddingBottom="20dp" />
 
