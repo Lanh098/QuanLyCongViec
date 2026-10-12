@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SỬA CÔNG VIỆC"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:paddingBottom="20dp" />
+
+        <EditText
+            android:id="@+id/etSuaTenCongViec"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tên công việc"
+            android:inputType="textCapSentences"
+            android:singleLine="true" />
+
+        <EditText
+            android:id="@+id/etSuaMoTa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Mô tả công việc"
+            android:gravity="top|start"
+            android:minLines="3"
+            android:inputType="textCapSentences|textMultiLine"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/btnLuuCongViec"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lưu"
+            android:layout_marginTop="12dp" />
+
+        <Button
+            android:id="@+id/btnHuySua"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hủy"
+            android:layout_marginTop="8dp" />
+
+    </LinearLayout>
+
+</ScrollView>
