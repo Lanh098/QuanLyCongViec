@@ -1,19 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:fillViewport="true">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical"
+        android:padding="20dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="QUẢN LÝ CÔNG VIỆC CÁ NHÂN"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:paddingBottom="16dp" />
+
+        <TextView
+            android:id="@+id/tvHoTenSinhVien"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Họ tên sinh viên: Bùi Tá Lanh"
+            android:textSize="16sp"
+            android:paddingBottom="4dp" />
+
+        <TextView
+            android:id="@+id/tvMaSinhVien"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mã sinh viên: 2415053122123"
+            android:textSize="16sp"
+            android:paddingBottom="4dp" />
+
+        <TextView
+            android:id="@+id/tvLopHocPhan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lớp học phần : 126TLTTD01"
+            android:textSize="16sp"
+            android:paddingBottom="20dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Thêm công việc mới"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:paddingBottom="8dp" />
+
+        <EditText
+            android:id="@+id/etTenCongViec"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nhập tên công việc"
+            android:inputType="textCapSentences"
+            android:singleLine="true" />
+
+        <EditText
+            android:id="@+id/etMoTa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nhập mô tả công việc"
+            android:gravity="top|start"
+            android:minLines="3"
+            android:inputType="textCapSentences|textMultiLine"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/btnThemCongViec"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Thêm công việc"
+            android:layout_marginTop="12dp" />
+
+        <Button
+            android:id="@+id/btnXemDanhSach"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Xem danh sách công việc"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:id="@+id/tvTieuDeDanhSach"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Danh sách công việc"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/llDanhSachCongViec"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone" />
+
+    </LinearLayout>
+</ScrollView>
