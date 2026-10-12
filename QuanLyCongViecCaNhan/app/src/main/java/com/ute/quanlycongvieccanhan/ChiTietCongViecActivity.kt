@@ -15,7 +15,7 @@ class ChiTietCongViecActivity : AppCompatActivity() {
     private var congViec: CongViec? = null
     private var viTri: Int = -1
 
-    // Nhận công việc đã sửa từ màn hình sửa.
+    // Nhận dữ liệu khi người dùng lưu chỉnh sửa hợp lệ.
     private val suaLauncher =
         registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
@@ -33,12 +33,16 @@ class ChiTietCongViecActivity : AppCompatActivity() {
                     hienThiThongTin()
                 }
             }
+
+            // RESULT_CANCELED:
+            // Không thay đổi công việc đang hiển thị.
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chi_tiet_cong_viec)
 
+        // Nhận công việc từ MainActivity.
         congViec = intent.getCongViecExtra(
             CongViecKeys.EXTRA_TASK
         )
@@ -55,13 +59,14 @@ class ChiTietCongViecActivity : AppCompatActivity() {
                 Toast.LENGTH_SHORT
             ).show()
 
+            setResult(RESULT_CANCELED)
             finish()
             return
         }
 
         hienThiThongTin()
 
-        // Đánh dấu hoặc bỏ đánh dấu hoàn thành.
+        // Đổi trạng thái hoàn thành.
         findViewById<Button>(R.id.btnTrangThai)
             .setOnClickListener {
 
@@ -70,10 +75,11 @@ class ChiTietCongViecActivity : AppCompatActivity() {
 
                 hienTai.trangThai = !hienTai.trangThai
 
+                // Không tăng soLanChinhSua ở thao tác này.
                 hienThiThongTin()
             }
 
-        // Mở màn hình sửa.
+        // Mở màn hình chỉnh sửa.
         findViewById<Button>(R.id.btnSuaCongViec)
             .setOnClickListener {
 
@@ -93,7 +99,7 @@ class ChiTietCongViecActivity : AppCompatActivity() {
                 suaLauncher.launch(intentSua)
             }
 
-        // Trả kết quả về màn hình chính.
+        // Nút quay lại màn hình chính.
         findViewById<Button>(R.id.btnQuayLai)
             .setOnClickListener {
                 traVeManHinhChinh()
@@ -110,7 +116,7 @@ class ChiTietCongViecActivity : AppCompatActivity() {
         )
     }
 
-    // Cập nhật thông tin và chữ trên nút trạng thái.
+    // Hiển thị thông tin, trạng thái và số lần chỉnh sửa.
     private fun hienThiThongTin() {
 
         val hienTai = congViec ?: return
@@ -126,7 +132,7 @@ class ChiTietCongViecActivity : AppCompatActivity() {
             }
     }
 
-    // Đóng màn hình chi tiết và gửi công việc về MainActivity.
+    // Trả công việc mới nhất về MainActivity.
     private fun traVeManHinhChinh() {
 
         val hienTai = congViec
@@ -153,3 +159,4 @@ class ChiTietCongViecActivity : AppCompatActivity() {
         finish()
     }
 }
+
