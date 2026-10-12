@@ -1,5 +1,6 @@
 package com.ute.quanlycongvieccanhan
 
+
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -14,7 +15,7 @@ class ChiTietCongViecActivity : AppCompatActivity() {
     private var congViec: CongViec? = null
     private var viTri: Int = -1
 
-    // Nhận model đã sửa từ SuaCongViecActivity.
+    // Nhận công việc đã sửa từ màn hình sửa.
     private val suaLauncher =
         registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
@@ -60,11 +61,24 @@ class ChiTietCongViecActivity : AppCompatActivity() {
 
         hienThiThongTin()
 
+        // Đánh dấu hoặc bỏ đánh dấu hoàn thành.
+        findViewById<Button>(R.id.btnTrangThai)
+            .setOnClickListener {
+
+                val hienTai = congViec
+                    ?: return@setOnClickListener
+
+                hienTai.trangThai = !hienTai.trangThai
+
+                hienThiThongTin()
+            }
+
         // Mở màn hình sửa.
         findViewById<Button>(R.id.btnSuaCongViec)
             .setOnClickListener {
 
-                val hienTai = congViec ?: return@setOnClickListener
+                val hienTai = congViec
+                    ?: return@setOnClickListener
 
                 val intentSua = Intent(
                     this,
@@ -79,7 +93,7 @@ class ChiTietCongViecActivity : AppCompatActivity() {
                 suaLauncher.launch(intentSua)
             }
 
-        // Nút quay lại.
+        // Trả kết quả về màn hình chính.
         findViewById<Button>(R.id.btnQuayLai)
             .setOnClickListener {
                 traVeManHinhChinh()
@@ -96,14 +110,23 @@ class ChiTietCongViecActivity : AppCompatActivity() {
         )
     }
 
+    // Cập nhật thông tin và chữ trên nút trạng thái.
     private fun hienThiThongTin() {
+
         val hienTai = congViec ?: return
 
         findViewById<TextView>(R.id.tvThongTinChiTiet).text =
             hienTai.thongTinCongViec()
+
+        findViewById<Button>(R.id.btnTrangThai).text =
+            if (hienTai.trangThai) {
+                "Đánh dấu chưa hoàn thành"
+            } else {
+                "Đánh dấu hoàn thành"
+            }
     }
 
-    // Trả model và vị trí về MainActivity.
+    // Đóng màn hình chi tiết và gửi công việc về MainActivity.
     private fun traVeManHinhChinh() {
 
         val hienTai = congViec
