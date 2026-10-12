@@ -4,32 +4,31 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 
 class ChiTietCongViecActivity : AppCompatActivity() {
 
-    private var tenCongViec: String = ""
-    private var moTa: String = ""
+    private var congViec: CongViec? = null
+    private var viTri: Int = -1
 
-    // Nhận kết quả sau khi sửa công việc.
+    // Nhận model đã sửa từ SuaCongViecActivity.
     private val suaLauncher =
         registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
 
             if (result.resultCode == RESULT_OK) {
-                val data = result.data
 
-                if (data != null) {
-                    tenCongViec =
-                        data.getStringExtra("tenCongViec")
-                            ?: tenCongViec
+                val congViecMoi =
+                    result.data?.getCongViecExtra(
+                        CongViecKeys.EXTRA_TASK
+                    )
 
-                    moTa =
-                        data.getStringExtra("moTa")
-                            ?: moTa
-
+                if (congViecMoi != null) {
+                    congViec = congViecMoi
                     hienThiThongTin()
                 }
             }
@@ -39,12 +38,25 @@ class ChiTietCongViecActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chi_tiet_cong_viec)
 
-        // Nhận dữ liệu được truyền từ MainActivity.
-        tenCongViec =
-            intent.getStringExtra("tenCongViec").orEmpty()
+        congViec = intent.getCongViecExtra(
+            CongViecKeys.EXTRA_TASK
+        )
 
-        moTa =
-            intent.getStringExtra("moTa").orEmpty()
+        viTri = intent.getIntExtra(
+            CongViecKeys.EXTRA_INDEX,
+            -1
+        )
+
+        if (congViec == null) {
+            Toast.makeText(
+                this,
+                "Không nhận được thông tin công việc",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            finish()
+            return
+        }
 
         hienThiThongTin()
 
@@ -52,30 +64,69 @@ class ChiTietCongViecActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnSuaCongViec)
             .setOnClickListener {
 
+                val hienTai = congViec ?: return@setOnClickListener
+
                 val intentSua = Intent(
                     this,
                     SuaCongViecActivity::class.java
                 ).apply {
-                    putExtra("tenCongViec", tenCongViec)
-                    putExtra("moTa", moTa)
+                    putExtra(
+                        CongViecKeys.EXTRA_TASK,
+                        hienTai
+                    )
                 }
 
                 suaLauncher.launch(intentSua)
             }
 
-        // Quay lại màn hình chính.
+        // Nút quay lại.
         findViewById<Button>(R.id.btnQuayLai)
             .setOnClickListener {
-                finish()
+                traVeManHinhChinh()
             }
+
+        // Xử lý phím Back của thiết bị.
+        onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    traVeManHinhChinh()
+                }
+            }
+        )
     }
 
     private fun hienThiThongTin() {
-        val tvThongTin =
-            findViewById<TextView>(R.id.tvThongTinChiTiet)
+        val hienTai = congViec ?: return
 
-        tvThongTin.text =
-            "Tên công việc: $tenCongViec\n\n" +
-                    "Mô tả công việc:\n$moTa"
+        findViewById<TextView>(R.id.tvThongTinChiTiet).text =
+            hienTai.thongTinCongViec()
+    }
+
+    // Trả model và vị trí về MainActivity.
+    private fun traVeManHinhChinh() {
+
+        val hienTai = congViec
+
+        if (hienTai == null) {
+            setResult(RESULT_CANCELED)
+            finish()
+            return
+        }
+
+        val ketQua = Intent().apply {
+            putExtra(
+                CongViecKeys.EXTRA_TASK,
+                hienTai
+            )
+
+            putExtra(
+                CongViecKeys.EXTRA_INDEX,
+                viTri
+            )
+        }
+
+        setResult(RESULT_OK, ketQua)
+        finish()
     }
 }

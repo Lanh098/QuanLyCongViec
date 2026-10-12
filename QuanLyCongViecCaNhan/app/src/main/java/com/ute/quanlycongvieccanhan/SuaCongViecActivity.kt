@@ -5,13 +5,31 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class SuaCongViecActivity : AppCompatActivity() {
 
+    private var congViecGoc: CongViec? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sua_cong_viec)
+
+        congViecGoc = intent.getCongViecExtra(
+            CongViecKeys.EXTRA_TASK
+        )
+
+        if (congViecGoc == null) {
+            Toast.makeText(
+                this,
+                "Không nhận được công việc cần sửa",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            finish()
+            return
+        }
 
         val etTen = findViewById<EditText>(
             R.id.etSuaTenCongViec
@@ -21,32 +39,42 @@ class SuaCongViecActivity : AppCompatActivity() {
             R.id.etSuaMoTa
         )
 
-        // Điền dữ liệu cũ vào hai ô nhập.
         etTen.setText(
-            intent.getStringExtra("tenCongViec").orEmpty()
+            congViecGoc?.tenCongViec.orEmpty()
         )
 
         etMoTa.setText(
-            intent.getStringExtra("moTa").orEmpty()
+            congViecGoc?.moTa.orEmpty()
         )
 
-        // Trả dữ liệu mới về màn hình chi tiết.
+        // Lưu và trả lại đối tượng CongViec mới.
         findViewById<Button>(R.id.btnLuuCongViec)
             .setOnClickListener {
+
+                val banDau = congViecGoc
+                    ?: return@setOnClickListener
 
                 val tenMoi = etTen.text.toString().trim()
                 val moTaMoi = etMoTa.text.toString().trim()
 
+                val congViecMoi = CongViec(
+                    tenCongViec = tenMoi,
+                    moTa = moTaMoi,
+                    trangThai = banDau.trangThai
+                )
+
                 val ketQua = Intent().apply {
-                    putExtra("tenCongViec", tenMoi)
-                    putExtra("moTa", moTaMoi)
+                    putExtra(
+                        CongViecKeys.EXTRA_TASK,
+                        congViecMoi
+                    )
                 }
 
                 setResult(Activity.RESULT_OK, ketQua)
                 finish()
             }
 
-        // Hủy sửa, không trả dữ liệu mới.
+        // Hủy sửa.
         findViewById<Button>(R.id.btnHuySua)
             .setOnClickListener {
                 setResult(Activity.RESULT_CANCELED)
