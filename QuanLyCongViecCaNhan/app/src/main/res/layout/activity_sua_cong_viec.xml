@@ -13,7 +13,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SỬA CÔNG VIỆC"
+            android:text="CHỈNH SỬA CÔNG VIỆC"
             android:textSize="24sp"
             android:textStyle="bold"
             android:paddingBottom="20dp" />
@@ -22,7 +22,7 @@
             android:id="@+id/etSuaTenCongViec"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Tên công việc"
+            android:hint="Nhập tên công việc"
             android:inputType="textCapSentences"
             android:singleLine="true" />
 
@@ -30,7 +30,7 @@
             android:id="@+id/etSuaMoTa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Mô tả công việc"
+            android:hint="Nhập mô tả công việc"
             android:gravity="top|start"
             android:minLines="3"
             android:inputType="textCapSentences|textMultiLine"
@@ -40,14 +40,14 @@
             android:id="@+id/btnLuuCongViec"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Lưu"
-            android:layout_marginTop="12dp" />
+            android:text="Lưu chỉnh sửa"
+            android:layout_marginTop="16dp" />
 
         <Button
             android:id="@+id/btnHuySua"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Hủy"
+            android:text="Hủy chỉnh sửa"
             android:layout_marginTop="8dp" />
 
     </LinearLayout>
