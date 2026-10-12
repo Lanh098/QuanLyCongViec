@@ -1,5 +1,4 @@
 package com.ute.quanlycongvieccanhan
-
 import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
@@ -14,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
-    // Danh sách sử dụng model CongViec.
     private val danhSachCongViec = mutableListOf<CongViec>()
 
     private lateinit var etTen: EditText
@@ -29,7 +27,6 @@ class MainActivity : AppCompatActivity() {
         ) { result ->
 
             if (result.resultCode == RESULT_OK) {
-
                 val data = result.data
 
                 if (data != null) {
@@ -68,12 +65,27 @@ class MainActivity : AppCompatActivity() {
         llDanhSach = findViewById(R.id.llDanhSachCongViec)
         tvTieuDeDanhSach = findViewById(R.id.tvTieuDeDanhSach)
 
-        // Thêm công việc.
+        // Thêm công việc mới.
         findViewById<Button>(R.id.btnThemCongViec)
             .setOnClickListener {
 
                 val ten = etTen.text.toString().trim()
                 val moTa = etMoTa.text.toString().trim()
+
+                // Không cho phép tên công việc rỗng.
+                if (ten.isBlank()) {
+                    Toast.makeText(
+                        this,
+                        "Tên công việc không được để trống",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    etTen.error = "Vui lòng nhập tên công việc"
+                    etTen.requestFocus()
+                    return@setOnClickListener
+                }
+
+                etTen.error = null
 
                 val congViec = CongViec(
                     tenCongViec = ten,
@@ -85,13 +97,19 @@ class MainActivity : AppCompatActivity() {
                 etTen.text.clear()
                 etMoTa.text.clear()
 
+                Toast.makeText(
+                    this,
+                    "Đã thêm công việc",
+                    Toast.LENGTH_SHORT
+                ).show()
+
                 if (
                     llDanhSach.visibility == View.VISIBLE
                 ) {
                     hienThiDanhSach()
                 }
 
-                // Mở chi tiết công việc vừa tạo.
+                // Mở màn hình chi tiết bằng Activity Result API.
                 moChiTietCongViec(
                     danhSachCongViec.lastIndex
                 )
@@ -119,7 +137,7 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-    // Mở chi tiết và truyền cả đối tượng CongViec.
+    // Mở màn hình chi tiết và truyền model.
     private fun moChiTietCongViec(index: Int) {
 
         if (index !in danhSachCongViec.indices) {
@@ -146,19 +164,19 @@ class MainActivity : AppCompatActivity() {
         chiTietLauncher.launch(intent)
     }
 
-    // Hiển thị danh sách công việc.
+    // Hiển thị danh sách kèm trạng thái.
     private fun hienThiDanhSach() {
 
         llDanhSach.removeAllViews()
 
         if (danhSachCongViec.isEmpty()) {
-            val tv = TextView(this).apply {
-                text = "Chưa có công việc nào."
-                textSize = 16f
-                setPadding(12, 16, 12, 16)
-            }
-
-            llDanhSach.addView(tv)
+            llDanhSach.addView(
+                TextView(this).apply {
+                    text = "Chưa có công việc nào."
+                    textSize = 16f
+                    setPadding(12, 16, 12, 16)
+                }
+            )
             return
         }
 
@@ -185,6 +203,7 @@ class MainActivity : AppCompatActivity() {
             )
 
             params.bottomMargin = 8
+
             llDanhSach.addView(btn, params)
         }
     }

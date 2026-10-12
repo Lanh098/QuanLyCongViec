@@ -29,11 +29,18 @@
             android:lineSpacingExtra="6dp" />
 
         <Button
+            android:id="@+id/btnTrangThai"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Đánh dấu hoàn thành"
+            android:layout_marginTop="20dp" />
+
+        <Button
             android:id="@+id/btnSuaCongViec"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Chỉnh sửa"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="8dp" />
 
         <Button
             android:id="@+id/btnQuayLai"

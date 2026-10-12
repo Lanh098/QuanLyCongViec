@@ -39,6 +39,7 @@ class SuaCongViecActivity : AppCompatActivity() {
             R.id.etSuaMoTa
         )
 
+        // Hiển thị thông tin ban đầu.
         etTen.setText(
             congViecGoc?.tenCongViec.orEmpty()
         )
@@ -47,7 +48,7 @@ class SuaCongViecActivity : AppCompatActivity() {
             congViecGoc?.moTa.orEmpty()
         )
 
-        // Lưu và trả lại đối tượng CongViec mới.
+        // Lưu thay đổi.
         findViewById<Button>(R.id.btnLuuCongViec)
             .setOnClickListener {
 
@@ -56,6 +57,21 @@ class SuaCongViecActivity : AppCompatActivity() {
 
                 val tenMoi = etTen.text.toString().trim()
                 val moTaMoi = etMoTa.text.toString().trim()
+
+                // Kiểm tra tên công việc.
+                if (tenMoi.isBlank()) {
+                    Toast.makeText(
+                        this,
+                        "Tên công việc không được để trống",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    etTen.error = "Vui lòng nhập tên công việc"
+                    etTen.requestFocus()
+                    return@setOnClickListener
+                }
+
+                etTen.error = null
 
                 val congViecMoi = CongViec(
                     tenCongViec = tenMoi,
@@ -74,7 +90,7 @@ class SuaCongViecActivity : AppCompatActivity() {
                 finish()
             }
 
-        // Hủy sửa.
+        // Hủy không áp dụng thay đổi.
         findViewById<Button>(R.id.btnHuySua)
             .setOnClickListener {
                 setResult(Activity.RESULT_CANCELED)
