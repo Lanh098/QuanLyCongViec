@@ -3,6 +3,9 @@ plugins {
 }
 
 android {
+    buildFeatures {
+        viewBinding = true
+    }
     namespace = "com.ute.quanlycongvieccanhan"
     compileSdk {
         version = release(37)
